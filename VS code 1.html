@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Performance Dashboard</title>
+    <!-- Include necessary CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.css">
+    <style>
+        /* Add custom styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .chart-container {
+            width: 45%;
+            min-width: 300px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sales Performance Dashboard</h1>
+
+    <div class="container">
+        <!-- Placeholder for charts -->
+        <div class="chart-container">
+            <h2>Total Sales by Month</h2>
+            <canvas id="salesByMonthChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h2>Sales Trend Over Time</h2>
+            <canvas id="salesTrendChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h2>Sales Distribution by Product Category</h2>
+            <canvas id="salesByCategoryChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Include necessary JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+        // JavaScript code for generating charts will go here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dummy data (replace with actual data from CSV/Excel)
+            const salesData = {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                values: [3000, 4500, 6000, 5500, 4000, 7000],
+                categories: ['Electronics', 'Clothing', 'Books', 'Furniture'],
+                categoryValues: [5000, 3500, 2000, 4500]
+            };
+
+            // Chart 1: Total Sales by Month (Bar chart)
+            var ctx1 = document.getElementById('salesByMonthChart').getContext('2d');
+            var salesByMonthChart = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: salesData.labels,
+                    datasets: [{
+                        label: 'Total Sales',
+                        data: salesData.values,
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Chart 2: Sales Trend Over Time (Line chart)
+            var ctx2 = document.getElementById('salesTrendChart').getContext('2d');
+            var salesTrendChart = new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: salesData.labels,
+                    datasets: [{
+                        label: 'Sales Trend',
+                        data: salesData.values,
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Chart 3: Sales Distribution by Product Category (Pie chart)
+            var ctx3 = document.getElementById('salesByCategoryChart').getContext('2d');
+            var salesByCategoryChart = new Chart(ctx3, {
+                type: 'pie',
+                data: {
+                    labels: salesData.categories,
+                    datasets: [{
+                        label: 'Sales Distribution',
+                        data: salesData.categoryValues,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.label + ': ' + tooltipItem.raw.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
